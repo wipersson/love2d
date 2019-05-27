@@ -1,10 +1,17 @@
 Object = require 'libraries/classic/classic'
+Input = require 'libraries/input/input'
+Timer = require 'libraries/hump/timer'
 require 'objects/test'
-
+--https://github.com/adnzzzzZ/blog/issues/16
 function love.load()
     image = love.graphics.newImage("snubbe.png")
     dudePosX = 0;
     dudePosY = 0;
+
+    timer = Timer()
+    
+    input = Input()
+    input:bind('a', 'test')
 
     local object_files = {}
     recursiveEnumerate('objects', object_files)
@@ -14,9 +21,14 @@ function love.load()
     hCircle = HyperCircle(400, 300, 50, 120, 10)
 end
 
-function love.update()
+function love.update(dt)
+    timer:update(dt)
     dudePosX = dudePosX + 1
     dudePosY = dudePosY + 1
+
+    if input:pressed('test') then print('pressed') end
+    if input:released('test') then print('released') end
+    if input:down('test') then print('down') end
 end
 
 function love.draw()
